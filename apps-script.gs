@@ -23,8 +23,9 @@
  * ========================================================
  */
 
-const TELEGRAM_BOT_TOKEN = 'ВСТАВТЕ_СЮДИ_ТОКЕН_БОТА';
-const TELEGRAM_CHAT_ID = 'ВСТАВТЕ_СЮДИ_CHAT_ID';
+var TELEGRAM_BOT_TOKEN = '8931954355:AAFQliOcCDqgbzuI7JEpeHoBAcSh5GfxJzM';
+var TELEGRAM_CHAT_ID   = '202482053';
+
 const SHEET_NAME = 'Заявки'; // назва аркуша (вкладки) в таблиці
 
 function doPost(e) {
