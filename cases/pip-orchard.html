@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кейс: Pip's Orchard — Портфоліо</title>
+<meta name="description" content="Кейс: інтерактивний сайт для вивчення англійської дітьми.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="wrap">
+  <div class="nav">
+    <div class="nav-name">Ірина Кирилова</div>
+    <div class="nav-links">
+      <a href="../index.html#about">Про мене</a>
+      <a href="../index.html#projects">Проєкти</a>
+      <a href="../index.html#services">Послуги</a>
+      <a href="../index.html#contact">Контакти</a>
+    </div>
+  </div>
+</header>
+
+<section class="wrap case-hero">
+  <a class="case-back" href="../index.html#projects">← Усі проєкти</a>
+  <span class="eyebrow">Інтерактивний сайт · Діти · Англійська</span>
+  <h1>Pip's Orchard</h1>
+  <p style="color:var(--text-muted); max-width:600px; font-size:16px;">
+    Ігровий сайт для вивчення англійської наймолодшими користувачами — літери, рахунок і щоденні завдання
+    у форматі затишного фруктового саду.
+  </p>
+
+  <div class="case-cover">
+    <img src="../assets/screenshots/pip-orchard-hero.jpg" alt="Головний екран сайту Pip's Orchard">
+  </div>
+
+  <div class="case-meta">
+    <div>
+      <span class="eyebrow">Задача</span>
+      Зробити навчання англійської для дітей веселим і зрозумілим без допомоги дорослих — великі кнопки, дружній маскот, проста навігація.
+    </div>
+    <div>
+      <span class="eyebrow">Інструменти</span>
+      HTML/CSS/JS, GitHub Pages
+    </div>
+    <div>
+      <span class="eyebrow">Роль</span>
+      Дизайн і верстка сайту
+    </div>
+  </div>
+
+  <div class="case-body">
+    <h2>Рішення</h2>
+    <p>
+      Головний герой — яблучко Pip у короні — одразу створює емоційний контакт і супроводжує дитину
+      репліками у стилі чат-бульбашки ("Hi! I'm Pip. Let's play today!"). Тепла ілюстративна палітра
+      (небо, сонце, яблуня з плодами) і великий заокруглений CTA "Start exploring" розраховані на дитячу
+      моторику та увагу, а плашка "For little learners" одразу дає зрозуміти батькам, кому призначений сайт.
+    </p>
+    <h2>Результат</h2>
+    <p>
+      Готовий інтерактивний сайт з ігровою механікою вивчення літер, рахунку та щоденного чек-листа
+      в єдиній тематичній історії саду.
+    </p>
+    <div class="btn-row" style="margin-top:24px;">
+      <a class="btn btn-primary" href="https://irinalotusdomino-jpg.github.io/childsite/" target="_blank" rel="noopener">Переглянути живий сайт ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="contacts">
+    <a href="mailto:ai.life.email@gmail.com">ai.life.email@gmail.com</a>
+    <a href="https://t.me/KyrylovaIryna" target="_blank" rel="noopener">Telegram</a>
+  </div>
+  <div class="copy">© 2026 · Портфоліо веб-дизайну</div>
+</footer>
+
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Нагору">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+(function() {
+  const btn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 500) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+</body>
+</html>
