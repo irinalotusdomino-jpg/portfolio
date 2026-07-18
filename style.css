@@ -436,6 +436,40 @@ footer .copy { color: var(--text-muted); font-size: 13px; }
   outline-offset: 3px;
 }
 
+/* ---------- Scroll to top ---------- */
+.scroll-top-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(35, 32, 26, 0.12);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  z-index: 50;
+}
+.scroll-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.scroll-top-btn:hover { border-color: var(--accent-gold); }
+.scroll-top-btn svg { width: 18px; height: 18px; }
+
+@media (max-width: 480px) {
+  .scroll-top-btn { right: 14px; bottom: 14px; width: 42px; height: 42px; }
+}
+
 /* ---------- Contact modal ---------- */
 .modal-overlay {
   position: fixed;
