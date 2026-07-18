@@ -298,13 +298,11 @@
 </div>
 
 <script>
-// ==== Налаштування Telegram-бота ====
-// 1. Створіть бота через @BotFather у Telegram, отримайте BOT_TOKEN.
-// 2. Напишіть боту будь-яке повідомлення, потім відкрийте
-//    https://api.telegram.org/bot<ВАШ_ТОКЕН>/getUpdates і знайдіть "chat":{"id": ...} — це CHAT_ID.
-// 3. Вставте обидва значення нижче.
-const TELEGRAM_BOT_TOKEN = 'ВСТАВТЕ_СЮДИ_ТОКЕН_БОТА';
-const TELEGRAM_CHAT_ID = 'ВСТАВТЕ_СЮДИ_CHAT_ID';
+// ==== Налаштування форми (Google Таблиця + Telegram через Apps Script) ====
+// Токен бота і chat_id тепер налаштовуються в окремому файлі apps-script.gs
+// (на боці Google, не видно в коді сайту). Тут потрібно вставити лише URL
+// вже розгорнутого веб-застосунку Apps Script — інструкція в apps-script.gs.
+const APPS_SCRIPT_URL = 'ВСТАВТЕ_СЮДИ_URL_WEB_APP';
 
 function openContactModal() {
   document.getElementById('contactModal').classList.add('open');
@@ -353,8 +351,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
   }
   if (!valid) return;
 
-  if (TELEGRAM_BOT_TOKEN.startsWith('ВСТАВТЕ') || TELEGRAM_CHAT_ID.startsWith('ВСТАВТЕ')) {
-    statusEl.textContent = 'Форму не налаштовано: додайте TELEGRAM_BOT_TOKEN і TELEGRAM_CHAT_ID у коді сайту.';
+  if (APPS_SCRIPT_URL.indexOf('ВСТАВТЕ') !== -1) {
+    statusEl.textContent = 'Форму не налаштовано: додайте APPS_SCRIPT_URL у коді сайту (див. apps-script.gs).';
     statusEl.classList.add('error');
     return;
   }
@@ -362,22 +360,22 @@ document.getElementById('contactForm').addEventListener('submit', async function
   submitBtn.disabled = true;
   submitBtn.textContent = 'Надсилаю…';
 
-  const text =
-    `Нова заявка з портфоліо\n` +
-    `Ім'я: ${nameEl.value.trim()}\n` +
-    `Телефон: ${phoneEl.value.trim()}\n` +
-    `Повідомлення: ${messageEl.value.trim() || '—'}`;
+  const formData = new URLSearchParams();
+  formData.append('name', nameEl.value.trim());
+  formData.append('phone', phoneEl.value.trim());
+  formData.append('message', messageEl.value.trim());
+  formData.append('source', 'Заявка з портфоліо');
 
   try {
-    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`);
+    const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
     const data = await res.json();
-    if (data.ok) {
-      statusEl.textContent = 'Дякую! Повідомлення надіслано, скоро зв\'яжусь.';
+    if (data.status === 'ok') {
+      statusEl.textContent = 'Дякую! Заявку надіслано, скоро зв\'яжусь.';
       statusEl.classList.add('success');
       document.getElementById('contactForm').reset();
       setTimeout(closeContactModal, 1800);
     } else {
-      throw new Error('Telegram API error');
+      throw new Error(data.message || 'Apps Script error');
     }
   } catch (err) {
     statusEl.textContent = 'Не вдалося надіслати. Спробуйте ще раз або напишіть напряму в Telegram.';
