@@ -278,7 +278,7 @@ footer {
   flex-wrap: wrap;
   gap: 16px;
 }
-footer .contacts { display: flex; gap: 20px; font-size: 14px; }
+footer .contacts { display: flex; gap: 20px; font-size: 14px; align-items: center; flex-wrap: wrap; }
 footer .contacts a { text-decoration: none; border-bottom: 1px solid var(--line); }
 footer .contacts a:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 footer .copy { color: var(--text-muted); font-size: 13px; }
@@ -343,4 +343,105 @@ footer .copy { color: var(--text-muted); font-size: 13px; }
 :focus-visible {
   outline: 2px solid var(--accent-gold);
   outline-offset: 3px;
+}
+
+/* ---------- Contact modal ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(35, 32, 26, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  transform: translateY(8px);
+  transition: transform 0.2s ease;
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+.modal-close:hover { color: var(--text); }
+.modal-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0 0 6px;
+}
+.modal-sub {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 13px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  resize: vertical;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+.field-error {
+  display: block;
+  font-size: 12px;
+  color: #b3432f;
+  margin-top: 5px;
+  min-height: 14px;
+}
+.form-status {
+  font-size: 13px;
+  text-align: center;
+  margin: 14px 0 0;
+  min-height: 18px;
+}
+.form-status.success { color: var(--accent-gold); }
+.form-status.error { color: #b3432f; }
+
+@media (max-width: 480px) {
+  .modal-box { padding: 26px 22px; }
 }

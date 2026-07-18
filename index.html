@@ -27,7 +27,7 @@
   <p class="lead">Роблю лендінги та сайти на Tilda, а також на коді з публікацією через GitHub і Netlify — від ідеї до запуску. Нижче — карта проєктів, над якими працювала.</p>
   <div class="btn-row">
     <a class="btn btn-primary" href="#projects">Дивитись проєкти</a>
-    <a class="btn btn-ghost" href="#contact">Обговорити проєкт</a>
+    <button type="button" class="btn btn-ghost" onclick="openContactModal()">Обговорити проєкт</button>
   </div>
 </section>
 
@@ -248,9 +248,130 @@
   <div class="contacts">
     <a href="mailto:ai.life.email@gmail.com">ai.life.email@gmail.com</a>
     <a href="https://t.me/KyrylovaIryna" target="_blank" rel="noopener">Telegram</a>
+    <button type="button" class="btn btn-primary" style="padding:9px 18px; font-size:13px;" onclick="openContactModal()">Обговорити проєкт</button>
   </div>
   <div class="copy">© 2026 · Портфоліо веб-дизайну</div>
 </footer>
+
+<!-- Contact modal -->
+<div class="modal-overlay" id="contactModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" onclick="closeContactModal()" aria-label="Закрити">&times;</button>
+    <h3 id="modalTitle" class="modal-title">Обговорити проєкт</h3>
+    <p class="modal-sub">Залиште контакти — відповім найближчим часом.</p>
+
+    <form id="contactForm" novalidate>
+      <div class="form-group">
+        <label for="cf-name">Ім'я</label>
+        <input type="text" id="cf-name" name="name" required autocomplete="name">
+        <span class="field-error" id="err-name"></span>
+      </div>
+      <div class="form-group">
+        <label for="cf-phone">Телефон</label>
+        <input type="tel" id="cf-phone" name="phone" required autocomplete="tel" placeholder="+380 XX XXX XX XX">
+        <span class="field-error" id="err-phone"></span>
+      </div>
+      <div class="form-group">
+        <label for="cf-message">Про проєкт</label>
+        <textarea id="cf-message" name="message" rows="4" placeholder="Коротко опишіть задачу"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" id="cf-submit" style="width:100%; justify-content:center;">Відправити</button>
+      <p class="form-status" id="cf-status" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+// ==== Налаштування Telegram-бота ====
+// 1. Створіть бота через @BotFather у Telegram, отримайте BOT_TOKEN.
+// 2. Напишіть боту будь-яке повідомлення, потім відкрийте
+//    https://api.telegram.org/bot<ВАШ_ТОКЕН>/getUpdates і знайдіть "chat":{"id": ...} — це CHAT_ID.
+// 3. Вставте обидва значення нижче.
+const TELEGRAM_BOT_TOKEN = 'ВСТАВТЕ_СЮДИ_ТОКЕН_БОТА';
+const TELEGRAM_CHAT_ID = 'ВСТАВТЕ_СЮДИ_CHAT_ID';
+
+function openContactModal() {
+  document.getElementById('contactModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeContactModal() {
+  document.getElementById('contactModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('contactModal').addEventListener('click', function(e) {
+  if (e.target === this) closeContactModal();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeContactModal();
+});
+
+function isValidPhone(value) {
+  const cleaned = value.replace(/[\s\-\(\)]/g, '');
+  return /^(\+380\d{9}|0\d{9})$/.test(cleaned);
+}
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const nameEl = document.getElementById('cf-name');
+  const phoneEl = document.getElementById('cf-phone');
+  const messageEl = document.getElementById('cf-message');
+  const errName = document.getElementById('err-name');
+  const errPhone = document.getElementById('err-phone');
+  const statusEl = document.getElementById('cf-status');
+  const submitBtn = document.getElementById('cf-submit');
+
+  errName.textContent = '';
+  errPhone.textContent = '';
+  statusEl.textContent = '';
+  statusEl.className = 'form-status';
+
+  let valid = true;
+  if (!nameEl.value.trim()) {
+    errName.textContent = "Введіть ім'я";
+    valid = false;
+  }
+  if (!isValidPhone(phoneEl.value.trim())) {
+    errPhone.textContent = 'Введіть коректний номер, напр. +380971234567';
+    valid = false;
+  }
+  if (!valid) return;
+
+  if (TELEGRAM_BOT_TOKEN.startsWith('ВСТАВТЕ') || TELEGRAM_CHAT_ID.startsWith('ВСТАВТЕ')) {
+    statusEl.textContent = 'Форму не налаштовано: додайте TELEGRAM_BOT_TOKEN і TELEGRAM_CHAT_ID у коді сайту.';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Надсилаю…';
+
+  const text =
+    `Нова заявка з портфоліо\n` +
+    `Ім'я: ${nameEl.value.trim()}\n` +
+    `Телефон: ${phoneEl.value.trim()}\n` +
+    `Повідомлення: ${messageEl.value.trim() || '—'}`;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(text)}`);
+    const data = await res.json();
+    if (data.ok) {
+      statusEl.textContent = 'Дякую! Повідомлення надіслано, скоро зв\'яжусь.';
+      statusEl.classList.add('success');
+      document.getElementById('contactForm').reset();
+      setTimeout(closeContactModal, 1800);
+    } else {
+      throw new Error('Telegram API error');
+    }
+  } catch (err) {
+    statusEl.textContent = 'Не вдалося надіслати. Спробуйте ще раз або напишіть напряму в Telegram.';
+    statusEl.classList.add('error');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Відправити';
+  }
+});
+</script>
 
 </body>
 </html>
