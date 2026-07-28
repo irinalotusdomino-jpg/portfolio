@@ -12,7 +12,7 @@ cases/ai-reels-creator.html         — кейс: AI Reels Creator
 cases/dr-macaron.html               — кейс: Dr. Macaron
 cases/englishgo.html                — кейс: EnglishGo
 cases/flight-dream.html             — кейс: Flight Dream
-cases/sushi-delivery.html           — кейс: доставка суші
+cases/sensoryiq.html                — кейс: sensoryIQ (дитячий центр розвитку)
 cases/cleaning-service.html         — кейс: клінінгова служба
 cases/pip-orchard.html              — кейс: Pip's Orchard (дитячий сайт)
 assets/screenshots/                 — скріншоти проєктів
@@ -90,5 +90,5 @@ assets/screenshots/                 — скріншоти проєктів
 3. EnglishGo — курс англійської
 4. Pip's Orchard — інтерактивний сайт для вивчення англійської дітьми
 5. Flight Dream — польоти на повітряній кулі
-6. Доставка японської кухні — суші-магазин
+6. sensoryIQ — дитячий центр розвитку
 7. Клінінгова служба — прибирання квартир та офісів

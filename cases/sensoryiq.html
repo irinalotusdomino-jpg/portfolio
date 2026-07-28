@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кейс: sensoryIQ — Портфоліо</title>
+<meta name="description" content="Кейс: лендінг дитячого центру розвитку sensoryIQ у Києві.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="wrap">
+  <div class="nav">
+    <div class="nav-name">Ірина Кирилова</div>
+    <div class="nav-links">
+      <a href="../index.html#about">Про мене</a>
+      <a href="../index.html#projects">Проєкти</a>
+      <a href="../index.html#services">Послуги</a>
+      <a href="../index.html#contact">Контакти</a>
+    </div>
+  </div>
+</header>
+
+<section class="wrap case-hero">
+  <a class="case-back" href="../index.html#projects">← Усі проєкти</a>
+  <span class="eyebrow">Лендінг · Дитячий центр розвитку</span>
+  <h1>sensoryIQ</h1>
+  <p style="color:var(--text-muted); max-width:600px; font-size:16px;">
+    Сайт дитячого центру розвитку sensoryIQ у Києві (ЖК Варшавський) з акцентом на довіру батьків і запис на заняття.
+  </p>
+
+  <div class="case-cover">
+    <img src="../assets/screenshots/sensoryiq-hero.png" alt="Головний екран сайту дитячого центру розвитку sensoryIQ">
+  </div>
+
+  <div class="case-meta">
+    <div>
+      <span class="eyebrow">Задача</span>
+      Донести цінності центру та програми розвитку (сенсорна інтеграція, логопедія, супровід дітей з РАС і РДУГ) і привести батьків до запису на заняття.
+    </div>
+    <div>
+      <span class="eyebrow">Інструменти</span>
+      HTML, CSS, GitHub, Netlify
+    </div>
+    <div>
+      <span class="eyebrow">Роль</span>
+      Дизайн і верстка сайту
+    </div>
+  </div>
+
+  <div class="case-body">
+    <h2>Рішення</h2>
+    <p>
+      М'яка пастельна палітра і теплий фон одразу створюють спокійну, дружню атмосферу, а розділи
+      про програми, відео занять та простір центру дають батькам повну картину ще до дзвінка.
+      Форма запису та кнопки зв'язку (дзвінок, Instagram) винесені окремими CTA на кожному екрані.
+    </p>
+    <h2>Результат</h2>
+    <p>
+      Односторінковий лендінг, що презентує центр, його програми та відгуки батьків, і веде до запису на заняття.
+    </p>
+    <div class="btn-row" style="margin-top:24px;">
+      <a class="btn btn-primary" href="https://sensoryiq.netlify.app/" target="_blank" rel="noopener">Переглянути живий сайт ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="contacts">
+    <a href="mailto:ai.life.email@gmail.com">ai.life.email@gmail.com</a>
+    <a href="https://t.me/KyrylovaIryna" target="_blank" rel="noopener">Telegram</a>
+  </div>
+  <div class="copy">© 2026 · Портфоліо веб-дизайну</div>
+</footer>
+
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Нагору">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<script>
+(function() {
+  const btn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 500) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+
+</body>
+</html>
