@@ -299,11 +299,11 @@
 </div>
 
 <script>
-// ==== Налаштування форми (Google Таблиця + Telegram через Apps Script) ====
-// Токен бота і chat_id тепер налаштовуються в окремому файлі apps-script.gs
-// (на боці Google, не видно в коді сайту). Тут потрібно вставити лише URL
-// вже розгорнутого веб-застосунку Apps Script — інструкція в apps-script.gs.
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjKyHhJPvxg4FefCk3Q43lx-s5O0-JwYvJcK7pn62G4wfv7XM7-4lDS8WZHma_kgle3Q/exec';
+// ==== Форма → Telegram ====
+// Форма надсилає дані на невеликий Cloudflare Worker (див. telegram-worker/),
+// який пересилає їх у Telegram. Щоб перемкнути форму на іншу людину/бізнес —
+// просто заміни значення TELEGRAM_ENDPOINT нижче.
+const TELEGRAM_ENDPOINT = 'https://portfolio-contact-form.YOUR-SUBDOMAIN.workers.dev';
 
 function openContactModal() {
   document.getElementById('contactModal').classList.add('open');
@@ -352,31 +352,26 @@ document.getElementById('contactForm').addEventListener('submit', async function
   }
   if (!valid) return;
 
-  if (APPS_SCRIPT_URL.indexOf('ВСТАВТЕ') !== -1) {
-    statusEl.textContent = 'Форму не налаштовано: додайте APPS_SCRIPT_URL у коді сайту (див. apps-script.gs).';
-    statusEl.classList.add('error');
-    return;
-  }
-
   submitBtn.disabled = true;
   submitBtn.textContent = 'Надсилаю…';
 
-  const formData = new URLSearchParams();
-  formData.append('name', nameEl.value.trim());
-  formData.append('phone', phoneEl.value.trim());
-  formData.append('message', messageEl.value.trim());
-  formData.append('source', 'Заявка з портфоліо');
+  const name = nameEl.value.trim();
+  const phone = phoneEl.value.trim();
+  const message = messageEl.value.trim();
 
   try {
-    const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: formData });
-    const data = await res.json();
-    if (data.status === 'ok') {
+    const res = await fetch(TELEGRAM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, phone: phone, message: message })
+    });
+    if (res.ok) {
       statusEl.textContent = 'Дякую! Заявку надіслано, скоро зв\'яжусь.';
       statusEl.classList.add('success');
       document.getElementById('contactForm').reset();
       setTimeout(closeContactModal, 1800);
     } else {
-      throw new Error(data.message || 'Apps Script error');
+      throw new Error('Request failed with status ' + res.status);
     }
   } catch (err) {
     statusEl.textContent = 'Не вдалося надіслати. Спробуйте ще раз або напишіть напряму в Telegram.';
